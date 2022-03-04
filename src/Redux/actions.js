@@ -1,5 +1,5 @@
 import {
-    POPULAR_MOVIES, RATED_MOVIES, NOW_PLAYING, SEARCHED_QUERY, SWITCH_TAB
+    POPULAR_MOVIES, RATED_MOVIES, NOW_PLAYING, SEARCHED_QUERY, SWITCH_TAB, LOADING
 } from "./constants";
 
 import axios from "axios";
@@ -16,7 +16,11 @@ export const switchtab = (tab_number) => {
 }
 
 export const nowplayingmovies = () => {
+
     return dispatch => {
+        dispatch({
+            type: LOADING
+        })
         axios.get(`${BASE_URL}${NOW_PLAYING_API}?api_key=${process.env.REACT_APP_API_KEY}`)
             .then(res => {
                 const movies = res.data.results;
@@ -30,7 +34,11 @@ export const nowplayingmovies = () => {
 
 
 export const getpopularmovies = () => {
+
     return dispatch => {
+        dispatch({
+            type: LOADING
+        })
         axios.get(`${BASE_URL}${POPULAR_API}?api_key=${process.env.REACT_APP_API_KEY}`)
             .then(res => {
                 const movies = res.data.results;
@@ -44,7 +52,11 @@ export const getpopularmovies = () => {
 
 
 export const getratedmovies = () => {
+
     return dispatch => {
+        dispatch({
+            type: LOADING
+        })
         axios.get(`${BASE_URL}${RATED_API}?api_key=${process.env.REACT_APP_API_KEY}`)
             .then(res => {
                 const movies = res.data.results;
