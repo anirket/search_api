@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { FiSearch } from "react-icons/fi";
 import axios from 'axios';
+import { nowplaying } from '../Redux/actions';
+import { useDispatch } from 'react-redux';
 
 const Search = () => {
 
@@ -8,14 +10,11 @@ const Search = () => {
   const [switch_task, setswitch_task] = useState(1);
   const [inputsearch, setinputsearch] = useState("");
   const [showinfomessage, setshowinfomessage] = useState(false);
-
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    axios.get(`https://api.themoviedb.org/3/movie/now_playing?api_key=bd810772b236bd4d664463bc7fc86eac&language=en-US&page=1&limit=5`)
-      .then((res) => {
-        console.log(res)
-      })
-  })
+    dispatch(nowplaying());
+  }, [])
 
 
 
