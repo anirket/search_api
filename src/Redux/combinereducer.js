@@ -5,9 +5,9 @@ import storage from 'redux-persist/lib/storage';
 import { moviereducer } from './reducer'
 
 const reducer = combineReducers({
-    account: persistReducer(
+    moviecase: persistReducer(
         {
-            key: 'account',
+            key: 'moviecase',
             storage,
             keyPrefix: 'moviecase'
         },

@@ -1,10 +1,11 @@
-import { POPULAR_MOVIES, RATED_MOVIES, NOW_PLAYING, SEARCHED_QUERY } from './constants'
+import { POPULAR_MOVIES, RATED_MOVIES, NOW_PLAYING, SEARCHED_QUERY, SWITCH_TAB } from './constants'
 
 export const initialState = {
     popular_movies: [],
     now_playing: [],
     rated_movies: [],
-    searched_query: []
+    searched_query: [],
+    active: 1
 };
 
 
@@ -26,13 +27,20 @@ export const moviereducer = (state = initialState, action) => {
         case NOW_PLAYING: {
             return {
                 ...state,
-                now_playing: action.payload
+                now_playing: action.payload,
+                active: 1
             }
         }
         case SEARCHED_QUERY: {
             return {
                 ...state,
                 searched_query: action.payload
+            }
+        }
+        case SWITCH_TAB: {
+            return {
+                ...state,
+                active: action.payload
             }
         }
         default: {

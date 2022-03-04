@@ -1,38 +1,54 @@
 import React, { useEffect, useState } from 'react'
 import { FiSearch } from "react-icons/fi";
-import axios from 'axios';
-import { nowplaying } from '../Redux/actions';
-import { useDispatch } from 'react-redux';
+import { nowplayingmovies, switchtab, getpopularmovies, getratedmovies } from '../Redux/actions';
+import { useDispatch, useSelector } from 'react-redux';
 
 const Search = () => {
-
 
   const [switch_task, setswitch_task] = useState(1);
   const [inputsearch, setinputsearch] = useState("");
   const [showinfomessage, setshowinfomessage] = useState(false);
   const dispatch = useDispatch();
+  const { moviecase } = useSelector(state => state);
 
   useEffect(() => {
-    dispatch(nowplaying());
-  }, [])
 
+    dispatch(switchtab(1))
+    if (moviecase.popular_movies.length > 0) {
+      return;
+    }
+    
+    dispatch(nowplayingmovies());
+
+  }, [dispatch, moviecase.popular_movies.length])
 
 
   const getpopular = (switchid) => {
     switchchangeUI(switchid)
+    if (moviecase.popular_movies.length > 0) {
+      return;
+    }
+    dispatch(getpopularmovies())
+
   }
 
   const getrated = (switchid) => {
     switchchangeUI(switchid)
 
+    if (moviecase.rated_movies.length > 0) {
+      return;
+    }
+    dispatch(getratedmovies())
+
   }
 
-  const getothers = (switchid) => {
+  const getnowplaying = (switchid) => {
     switchchangeUI(switchid)
   }
 
   const switchchangeUI = (switchid) => {
     setswitch_task(Number(switchid))
+    dispatch(switchtab(switchid))
   }
 
   const changeserachinput = (value) => {
@@ -52,9 +68,9 @@ const Search = () => {
   return (
     <div className='Searchoptions flex md:flex-row flex-col mt-5  md:justify-between md:mx-44 md:mt-16'>
       <div className="switchers  flex justify-center md:block">
-        <button id="1" onClick={(event) => getpopular(event.target.id)} className={`${(switch_task === 1) ? "border-b-2 border-red-500 text-red-500" : "border-none"} p-3 mr-3`}>Now Playing</button>
-        <button id="2" onClick={(event) => getrated(event.target.id)} className={`${(switch_task === 2) ? "border-b-2 border-red-500 text-red-500" : "border-none"} p-3 mr-3`}>Popular</button>
-        <button id="3" onClick={(event) => getothers(event.target.id)} className={`${(switch_task === 3) ? "border-b-2 border-red-500 text-red-500" : "border-none"} p-3 mr-3`}>Rated</button>
+        <button id="1" onClick={(event) => getnowplaying(event.target.id)} className={`${(switch_task === 1) ? "border-b-2 border-red-500 text-red-500" : "border-none"} p-3 mr-3`}>Now Playing</button>
+        <button id="2" onClick={(event) => getpopular(event.target.id)} className={`${(switch_task === 2) ? "border-b-2 border-red-500 text-red-500" : "border-none"} p-3 mr-3`}>Popular</button>
+        <button id="3" onClick={(event) => getrated(event.target.id)} className={`${(switch_task === 3) ? "border-b-2 border-red-500 text-red-500" : "border-none"} p-3 mr-3`}>Rated</button>
       </div>
       <div className='Searchinput  flex items-center justify-center mt-7 border-gray-600 p-3 mx-5 md:mt-0  md:p-0 relative'>
         <div className='flex items-center'>
