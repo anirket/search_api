@@ -109,6 +109,8 @@ const Results = () => {
 
   const { moviecase } = useSelector(state => state);
 
+  console.log(moviecase)
+
 
   if (!moviecase.loading && moviecase.apierror) {
     return (

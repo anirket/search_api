@@ -18,6 +18,16 @@ const MovieComponent = ({ movies }) => {
                             <span className='font-semibold'>Release Date :</span> {movies.release_date}
                         </div>
                     </div>
+
+
+
+                    <div className='rating'>
+                        <div>
+                            <span className='font-semibold'>Rating :</span> {movies.vote_average}
+                        </div>
+                    </div>
+
+
                     <div className='text-sm'>
                         <div>
                             <span className='font-semibold'>About :</span>
