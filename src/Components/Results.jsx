@@ -109,6 +109,15 @@ const Results = () => {
 
   const { moviecase } = useSelector(state => state);
 
+
+  if (!moviecase.loading && moviecase.apierror) {
+    return (
+      <div className='flex justify-center mt-20 text-xl text-center'>
+        Something went wrong! Please try again Later
+      </div>
+    )
+  }
+
   if (moviecase.loading) {
     return (<Loading />)
   }

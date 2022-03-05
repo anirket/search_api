@@ -1,4 +1,4 @@
-import { POPULAR_MOVIES, RATED_MOVIES, NOW_PLAYING, SEARCHED_QUERY, SWITCH_TAB, LOADING } from './constants'
+import { POPULAR_MOVIES, RATED_MOVIES, NOW_PLAYING, SEARCHED_QUERY, SWITCH_TAB, LOADING, APIERROR } from './constants'
 
 export const initialState = {
     popular_movies: [],
@@ -6,6 +6,7 @@ export const initialState = {
     rated_movies: [],
     searched_query: [],
     loading: false,
+    apierror: false,
     active: 1
 };
 
@@ -17,41 +18,52 @@ export const moviereducer = (state = initialState, action) => {
             return {
                 ...state,
                 popular_movies: action.payload,
-                loading:false
+                loading: false,
+                apierror: false
             }
         }
         case RATED_MOVIES: {
             return {
                 ...state,
                 rated_movies: action.payload,
-                loading:false
+                loading: false,
+                apierror: false
             }
         }
         case NOW_PLAYING: {
             return {
                 ...state,
                 now_playing: action.payload,
-                loading:false
+                loading: false,
+                apierror: false
             }
         }
         case SEARCHED_QUERY: {
             return {
                 ...state,
                 searched_query: action.payload,
-                loading:false
+                loading: false,
+                apierror: false
             }
         }
         case SWITCH_TAB: {
             return {
                 ...state,
                 active: action.payload,
-                loading:false
+                loading: false
             }
         }
         case LOADING: {
             return {
                 ...state,
-                loading:true
+                loading: true
+            }
+        }
+        case APIERROR: {
+            return {
+                ...state,
+                loading: false,
+                apierror: true
             }
         }
         default: {
