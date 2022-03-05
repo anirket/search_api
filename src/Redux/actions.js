@@ -85,7 +85,7 @@ export const getratedmovies = () => {
             const movies = results.data.results;
 
 
-           
+
 
             dispatch({
                 type: RATED_MOVIES,
@@ -110,9 +110,21 @@ export const getsearchedquery = (inputsearch) => {
             type: LOADING
         })
 
+        let cancelToken;
+
         try {
 
-            const results = await axios.get(`${SEARCH_API}?api_key=${process.env.REACT_APP_API_KEY}&query=${inputsearch}`)
+            if (typeof cancelToken != typeof undefined) {
+                cancelToken.cancel("Previous Request Cancelled")
+            }
+
+            cancelToken = axios.CancelToken.source();
+
+            const results = await axios.get(`${SEARCH_API}?api_key=${process.env.REACT_APP_API_KEY}&query=${inputsearch}`,
+                {
+                    cancelToken: cancelToken.token
+                }
+            )
             const movies = results.data.results;
 
             if (movies.length === 0) {

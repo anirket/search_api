@@ -45,7 +45,8 @@ export const moviereducer = (state = initialState, action) => {
                 searched_query: action.payload,
                 nomoviesfound:false,
                 loading: false,
-                apierror: false
+                apierror: false,
+                active: 4
             }
         }
         case SWITCH_TAB: {

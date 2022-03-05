@@ -100,7 +100,7 @@ const SwitchTab = ({ moviecase }) => {
                       ))
                   }
                 </div>
-                <div className={`${(hideloadmore || moviecase.nomoviesfound) ? "hidden" : "flex"} loadmore  justify-center pb-20 mt-5`}>
+                <div className={`${(hideloadmore || moviecase.nomoviesfound || moviecase.searched_query.length <= 5) ? "hidden" : "flex"} loadmore  justify-center pb-20 mt-5`}>
                   <button onClick={() => nextpage(moviecase.now_playing.length)} className='bg-blue-500 text-white p-2 rounded-xl'>Load More</button>
                 </div>
               </>)

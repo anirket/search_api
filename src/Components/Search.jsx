@@ -73,13 +73,14 @@ const Search = () => {
 
     deb(value);
 
+
     if (value.length < 3) {
       setshowinfomessage(true);
       return;
     }
 
-    else {
-      dispatch(switchtab(4))
+    if (value.length === 3) {
+      switchchangeUI(4)
     }
 
     setshowinfomessage(false);
