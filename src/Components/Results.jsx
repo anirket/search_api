@@ -83,7 +83,9 @@ const SwitchTab = ({ moviecase }) => {
     case 4:
       return (
         <>
-
+{
+  console.log(moviecase.searched_query)
+}
           {
 
             moviecase.nomoviesfound ?

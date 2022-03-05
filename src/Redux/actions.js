@@ -120,12 +120,30 @@ export const getsearchedquery = (inputsearch) => {
 
             cancelToken = axios.CancelToken.source();
 
+            const value = localStorage.getItem(inputsearch);
+            if (value) {
+                let cached_movies = JSON.parse(value);
+                if (cached_movies.length === 0) {
+                    dispatch({
+                        type: NORESULTSFOUND
+                    });
+                    return;
+                }
+                dispatch({
+                    type: SEARCHED_QUERY,
+                    payload: cached_movies
+                });
+                return;
+            }
+
             const results = await axios.get(`${SEARCH_API}?api_key=${process.env.REACT_APP_API_KEY}&query=${inputsearch}`,
                 {
                     cancelToken: cancelToken.token
                 }
             )
             const movies = results.data.results;
+
+            localStorage.setItem(`${inputsearch}`, JSON.stringify(movies))
 
             if (movies.length === 0) {
                 dispatch({
