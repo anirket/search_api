@@ -5,5 +5,7 @@ export const SEARCHED_QUERY = `SEARCHED_QUERY`
 export const SWITCH_TAB = `SWITCH_TAB`
 export const LOADING = `LOADING`
 export const APIERROR = `APIERROR`
+export const NORESULTSFOUND = `NORESULTSFOUND`
+
 
 

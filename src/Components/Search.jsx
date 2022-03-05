@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { FiSearch } from "react-icons/fi";
-import { nowplayingmovies, switchtab, getpopularmovies, getratedmovies } from '../Redux/actions';
+import { nowplayingmovies, switchtab, getpopularmovies, getratedmovies, getsearchedquery } from '../Redux/actions';
 import { useDispatch, useSelector } from 'react-redux';
+import _debounce from 'lodash/debounce';
 
 const Search = () => {
 
@@ -17,10 +18,23 @@ const Search = () => {
     if (moviecase.popular_movies.length > 0) {
       return;
     }
-    
+
     dispatch(nowplayingmovies());
 
   }, [dispatch, moviecase.popular_movies.length])
+
+
+  useEffect(() => {
+
+    if (inputsearch === "") {
+      return;
+    }
+
+    if (inputsearch.length >= 3) {
+      dispatch(getsearchedquery(inputsearch))
+    }
+
+  }, [inputsearch, dispatch])
 
 
   const getpopular = (switchid) => {
@@ -51,16 +65,25 @@ const Search = () => {
     dispatch(switchtab(switchid))
   }
 
+  const deb = useCallback(
+    _debounce((value) => setinputsearch(value), 1000)
+    , [])
+
   const changeserachinput = (value) => {
-    setinputsearch(value)
-    if (value.length <= 3) {
+
+    deb(value);
+
+    if (value.length < 3) {
       setshowinfomessage(true);
       return;
     }
+
+    else {
+      dispatch(switchtab(4))
+    }
+
     setshowinfomessage(false);
 
-
-    //apicall
   }
 
 
@@ -74,7 +97,7 @@ const Search = () => {
       </div>
       <div className='Searchinput  flex items-center justify-center mt-7 border-gray-600 p-3 mx-5 md:mt-0  md:p-0 relative'>
         <div className='flex items-center'>
-          <FiSearch className='w-10 text-gray-600 font-semibold' /> <input onBlur={() => setshowinfomessage(false)} value={inputsearch} onChange={(event) => changeserachinput(event.target.value)} className='p-1 outline-none w-72' maxLength={20} type="text" placeholder={`Try "Singham" or "Shutter Island"`} />
+          <FiSearch className='w-10 text-gray-600 font-semibold' /> <input onBlur={() => setshowinfomessage(false)} onChange={(event) => changeserachinput(event.target.value)} className='p-1 outline-none w-72' maxLength={20} type="text" placeholder={`Try "Singham" or "Shutter Island"`} />
         </div>
 
         <div className={`${showinfomessage ? "block" : "hidden"}  Infomessage absolute top-14 w-80 bg-white p-3 rounded-lg`}>

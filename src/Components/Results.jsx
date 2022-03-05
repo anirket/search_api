@@ -83,18 +83,30 @@ const SwitchTab = ({ moviecase }) => {
     case 4:
       return (
         <>
-          <div className='p-4 md:mx-60'>
-            {
-              moviecase.searched_query
-                .slice(0, loadmore)
-                .map((movies) => (
-                  < MovieComponent key={movies.id} movies={movies} />
-                ))
-            }
-          </div>
-          <div className={`${hideloadmore ? "hidden" : "flex"} loadmore  justify-center pb-20 mt-5`}>
-            <button onClick={() => nextpage(moviecase.now_playing.length)} className='bg-blue-500 text-white p-2 rounded-xl'>Load More</button>
-          </div>
+
+          {
+
+            moviecase.nomoviesfound ?
+              (<>
+                <h2 className='flex justify-center text-center mt-10 font-bold tracking-wide'>No Movies Found</h2>
+              </>) :
+              (<>
+                <div className='p-4 md:mx-60'>
+                  {
+                    moviecase.searched_query
+                      .slice(0, loadmore)
+                      .map((movies) => (
+                        < MovieComponent key={movies.id} movies={movies} />
+                      ))
+                  }
+                </div>
+                <div className={`${(hideloadmore || moviecase.nomoviesfound) ? "hidden" : "flex"} loadmore  justify-center pb-20 mt-5`}>
+                  <button onClick={() => nextpage(moviecase.now_playing.length)} className='bg-blue-500 text-white p-2 rounded-xl'>Load More</button>
+                </div>
+              </>)
+
+          }
+
         </>
       )
     default:
@@ -109,7 +121,6 @@ const Results = () => {
 
   const { moviecase } = useSelector(state => state);
 
-  console.log(moviecase)
 
 
   if (!moviecase.loading && moviecase.apierror) {

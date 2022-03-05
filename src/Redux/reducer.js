@@ -1,4 +1,4 @@
-import { POPULAR_MOVIES, RATED_MOVIES, NOW_PLAYING, SEARCHED_QUERY, SWITCH_TAB, LOADING, APIERROR } from './constants'
+import { POPULAR_MOVIES, RATED_MOVIES, NOW_PLAYING, SEARCHED_QUERY, SWITCH_TAB, LOADING, APIERROR, NORESULTSFOUND } from './constants'
 
 export const initialState = {
     popular_movies: [],
@@ -7,7 +7,8 @@ export const initialState = {
     searched_query: [],
     loading: false,
     apierror: false,
-    active: 1
+    active: 1,
+    nomoviesfound: false
 };
 
 
@@ -42,6 +43,7 @@ export const moviereducer = (state = initialState, action) => {
             return {
                 ...state,
                 searched_query: action.payload,
+                nomoviesfound:false,
                 loading: false,
                 apierror: false
             }
@@ -57,6 +59,13 @@ export const moviereducer = (state = initialState, action) => {
             return {
                 ...state,
                 loading: true
+            }
+        }
+        case NORESULTSFOUND: {
+            return {
+                ...state,
+                nomoviesfound:true,
+                loading: false
             }
         }
         case APIERROR: {

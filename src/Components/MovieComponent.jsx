@@ -5,8 +5,12 @@ import ShowMoreText from "react-show-more-text"
 const MovieComponent = ({ movies }) => {
     return (
         <>
-            <div className='flex md:flex-row flex-col justify-center border-2 md:border-0 m-2 rounded-xl items-center p-4'>
-                <img className='rounded-lg' src={`${IMAGE_URL}${movies.poster_path}`} alt="" />
+            <div className='flex md:flex-row flex-col  border-2 md:border-0 m-2 rounded-xl items-center p-4'>
+                <img onError={({ currentTarget }) => {
+                    currentTarget.onerror = null; // prevents looping
+                    currentTarget.src = `/Images/moviecase_logo.png`;
+                }}
+                 className='rounded-lg' src={`${IMAGE_URL}${movies.poster_path}`} alt="" />
                 <div className='pl-5'>
                     <div className='title text-lg font-semibold tracking-wide'>
                         {
@@ -18,9 +22,6 @@ const MovieComponent = ({ movies }) => {
                             <span className='font-semibold'>Release Date :</span> {movies.release_date}
                         </div>
                     </div>
-
-
-
                     <div className='rating'>
                         <div>
                             <span className='font-semibold'>Rating :</span> {movies.vote_average}
