@@ -1,16 +1,30 @@
 import React from 'react'
 import { IMAGE_URL } from '../Utils/API'
 import ShowMoreText from "react-show-more-text"
+import { motion } from "framer-motion"
 
-const MovieComponent = ({ movies }) => {
+const MovieComponent = ({ movies, itemindex }) => {
+
+
+    const itemVariants = {
+        initial: { x: "-100vw", opacity: 0.5 },
+        animate: { x: 0, opacity: 1 },
+    };
+
     return (
         <>
-            <div className='flex md:flex-row flex-col  border-2 md:border-0 m-2 rounded-xl items-center p-4'>
+            <motion.div
+                variants={itemVariants}
+                initial="initial"
+                animate="animate"
+                transition={{ duration: 0.5, delay: itemindex * 0.07,type:"spring" }}
+            
+                className='flex md:flex-row flex-col  border-2 md:border-0 m-2 rounded-xl items-center p-4'>
                 <img onError={({ currentTarget }) => {
                     currentTarget.onerror = null; // prevents looping
                     currentTarget.src = `/Images/moviecase_logo.png`;
                 }}
-                 className='rounded-lg' src={`${IMAGE_URL}${movies.poster_path}`} alt="" />
+                    className='rounded-lg' src={`${IMAGE_URL}${movies.poster_path}`} alt="" />
                 <div className='pl-5'>
                     <div className='title text-lg font-semibold tracking-wide'>
                         {
@@ -49,7 +63,7 @@ const MovieComponent = ({ movies }) => {
 
 
                 </div>
-            </div>
+            </motion.div>
             <div className='divider bg-gray-200 w-full hidden md:block'>
             </div>
         </>

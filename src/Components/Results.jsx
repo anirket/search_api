@@ -36,8 +36,8 @@ const SwitchTab = ({ moviecase }) => {
           {
             moviecase.now_playing
               .slice(0, loadmore)
-              .map((movies) => (
-                < MovieComponent key={movies.id} movies={movies} />
+              .map((movies, itemindex) => (
+                < MovieComponent key={movies.id} movies={movies} itemindex={itemindex} />
               ))
           }
 
@@ -83,9 +83,9 @@ const SwitchTab = ({ moviecase }) => {
     case 4:
       return (
         <>
-{
-  console.log(moviecase.searched_query)
-}
+          {
+            console.log(moviecase.searched_query)
+          }
           {
 
             moviecase.nomoviesfound ?
