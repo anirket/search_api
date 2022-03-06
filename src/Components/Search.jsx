@@ -110,7 +110,7 @@ const Search = () => {
           <FiSearch className='w-10 text-gray-600 font-semibold' /> <input ref={inputsearchref} onBlur={() => setshowinfomessage(false)} onChange={(event) => changeserachinput(event.target.value)} className='p-1 outline-none w-72' maxLength={20} type="text" placeholder={`Try "Singham" or "Shutter Island"`} />
         </div>
 
-        <div className={`${showinfomessage ? "block" : "hidden"}  Infomessage absolute top-14 w-80 bg-white p-3 rounded-lg`}>
+        <div className={`${showinfomessage ? "block" : "hidden"}   Infomessage absolute top-14 w-80 bg-white p-3 rounded-lg z-50 mt-2 md:mt-0`}>
           <h2 className='font-semibold text-md  text-gray-800'>
             Type atleast 3 characters
           </h2>
