@@ -5,11 +5,11 @@ import Search from './Components/Search'
 
 const App = () => {
     return (
-        <div>
+        <>
             <Header />
             <Search />
             <Results />
-        </div>
+        </>
     )
 }
 

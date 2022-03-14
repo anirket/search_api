@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { FiSearch } from "react-icons/fi";
 import { nowplayingmovies, switchtab, getpopularmovies, getratedmovies, getsearchedquery } from '../Redux/actions';
 import { useDispatch, useSelector } from 'react-redux';
@@ -11,7 +11,7 @@ const Search = () => {
   const [inputsearch, setinputsearch] = useState("");
   const [showinfomessage, setshowinfomessage] = useState(false);
 
-  const inputsearchref = useRef(null);
+  // const inputsearchref = useRef(null);
 
   const dispatch = useDispatch();
   const { moviecase } = useSelector(state => state);
@@ -34,9 +34,7 @@ const Search = () => {
       return;
     }
 
-    if (inputsearch.length >= 3) {
-      dispatch(getsearchedquery(inputsearch))
-    }
+
 
   }, [inputsearch, dispatch])
 
@@ -76,17 +74,27 @@ const Search = () => {
   }
 
   const clearinput = () => {
-    inputsearchref.current.value = "";
+    // inputsearchref.current.value = "";
+    setinputsearch("");
   }
 
   const deb = useCallback(
-    _debounce((value) => setinputsearch(value), 1000)
+    _debounce((value) => {
+
+      if (value.length >= 3) {
+        dispatch(getsearchedquery(value))
+      }
+
+    }
+
+      , 1000)
     , [])
 
   const changeserachinput = (value) => {
 
-    deb(value);
+    setinputsearch(value)
 
+    deb(value);
 
     if (value.length < 3) {
       setshowinfomessage(true);
@@ -112,7 +120,7 @@ const Search = () => {
       </div>
       <div className='Searchinput  flex items-center justify-center mt-7 border-gray-600 p-3 mx-5 md:mt-0  md:p-0 relative'>
         <div className='flex items-center'>
-          <FiSearch className='w-10 text-gray-600 font-semibold' /> <input ref={inputsearchref} onBlur={() => setshowinfomessage(false)} onChange={(event) => changeserachinput(event.target.value)} className='p-1 outline-none w-72' maxLength={20} type="text" placeholder={`Try "Singham" or "Shutter Island"`} /> <span ><IoCloseSharp onClick={clearinput} className='text-xl cursor-pointer' /></span>
+          <FiSearch className='w-10 text-gray-600 font-semibold' /> <input value={inputsearch} onBlur={() => setshowinfomessage(false)} onChange={(event) => changeserachinput(event.target.value)} className='p-1 outline-none w-72' maxLength={20} type="text" placeholder={`Try "Singham" or "Shutter Island"`} /> <span ><IoCloseSharp onClick={clearinput} className='text-xl cursor-pointer' /></span>
         </div>
 
         <div className={`${showinfomessage ? "block" : "hidden"}   Infomessage absolute top-14 w-80 bg-white p-3 rounded-lg z-50 mt-2 md:mt-0`}>

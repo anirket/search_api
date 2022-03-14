@@ -6,6 +6,9 @@ import axios from "axios";
 import { BASE_URL, NOW_PLAYING_API, POPULAR_API, RATED_API, SEARCH_API } from "../Utils/API";
 
 
+
+let cancelToken;
+
 export const switchtab = (tab_number) => {
     return dispatch => {
         dispatch({
@@ -110,11 +113,12 @@ export const getsearchedquery = (inputsearch) => {
             type: LOADING
         })
 
-        let cancelToken;
 
         try {
 
+            // debugger
             if (typeof cancelToken != typeof undefined) {
+                // debugger
                 cancelToken.cancel("Previous Request Cancelled")
             }
 
@@ -122,18 +126,34 @@ export const getsearchedquery = (inputsearch) => {
 
             const value = localStorage.getItem(inputsearch);
             if (value) {
+
+
                 let cached_movies = JSON.parse(value);
-                if (cached_movies.length === 0) {
+
+                let previous_date = cached_movies.date;
+
+                let current_time = Date.now();
+
+                let parsed_time = (current_time - previous_date) / 1000;
+
+                console.log("parsed_time", parsed_time)
+
+                if (parsed_time < 60) {
+
+
+                    if (cached_movies.movies.length === 0) {
+                        dispatch({
+                            type: NORESULTSFOUND
+                        });
+                        return;
+                    }
                     dispatch({
-                        type: NORESULTSFOUND
+                        type: SEARCHED_QUERY,
+                        payload: cached_movies.movies
                     });
                     return;
                 }
-                dispatch({
-                    type: SEARCHED_QUERY,
-                    payload: cached_movies
-                });
-                return;
+
             }
 
             const results = await axios.get(`${SEARCH_API}?api_key=${process.env.REACT_APP_API_KEY}&query=${inputsearch}`,
@@ -143,7 +163,12 @@ export const getsearchedquery = (inputsearch) => {
             )
             const movies = results.data.results;
 
-            localStorage.setItem(`${inputsearch}`, JSON.stringify(movies))
+            const movie_object = {
+                movies,
+                date: Date.now()
+            }
+
+            localStorage.setItem(`${inputsearch}`, JSON.stringify(movie_object))
 
             if (movies.length === 0) {
                 dispatch({
